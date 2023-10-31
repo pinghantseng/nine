@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define SIZE 8
-#define BOUND (x+((a+1) * dx) != -1) && (x+((a+1) * dx) != 8) && (y+((a+1) * dy) != -1) && (y+((a+1) * dy) != 8)
+#define BOUND (x+((a+1) * dx) > -1) && (x+((a+1) * dx) < 8) && (y+((a+1) * dy) > -1) && (y+((a+1) * dy) < 8)
 
 int chess[SIZE][SIZE] = {0};
 int next[2][SIZE][SIZE] = {0};
