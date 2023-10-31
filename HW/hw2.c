@@ -33,7 +33,7 @@ void find(int x, int  y){
             for(int dx = -1; dx < 2; dx++){
                 if(dx != 0 || dy != 0){
                     for(int a = 1; a < 7; a++){
-                        if((x+(a * dx) != -1)||(x+(a * dx) != 8)||(y+(a * dy) != -1)||(y+(a * dy) != 8)){
+                        if((x+((a+1) * dx) != -1) && (x+((a+1) * dx) != 8) && (y+((a+1) * dy) != -1) && (y+((a+1) * dy) != 8)){
                             if(chess[x+(a * dx)][y+(a * dy)] == antiColor)
                                 if(chess[x+((a+1) * dx)][y+((a+1) * dy)] == 0){
                                     printf("(%d, %d)", x+((a+1) * dx), y+((a+1) * dy));
