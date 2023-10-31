@@ -1,5 +1,6 @@
 #include <stdio.h>
 #define SIZE 8
+#define BOUND (x+((a+1) * dx) != -1) && (x+((a+1) * dx) != 8) && (y+((a+1) * dy) != -1) && (y+((a+1) * dy) != 8)
 
 int chess[SIZE][SIZE];
 
@@ -33,7 +34,7 @@ void find(int x, int  y){
             for(int dx = -1; dx < 2; dx++){
                 if(dx != 0 || dy != 0){
                     for(int a = 1; a < 7; a++){
-                        if((x+((a+1) * dx) != -1) && (x+((a+1) * dx) != 8) && (y+((a+1) * dy) != -1) && (y+((a+1) * dy) != 8)){
+                        if(BOUND){
                             if(chess[x+(a * dx)][y+(a * dy)] == antiColor)
                                 if(chess[x+((a+1) * dx)][y+((a+1) * dy)] == 0){
                                     printf("(%d, %d)", x+((a+1) * dx), y+((a+1) * dy));
