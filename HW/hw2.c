@@ -41,7 +41,7 @@ void find(int x, int  y){
                                     break;
                                 }
                         }
-                        break;
+                        else break;
                     }
                 }
             }
