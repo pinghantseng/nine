@@ -71,7 +71,7 @@ void checkNewStep(int color){
     for (int i = 0; i < SIZE; i++){
         for (int j = 0; j < SIZE; j++)
             if(next[color][i][j] > 0)
-                printf("(%d, %d) 可翻轉 %d 子\n", i, j, next[color][i][j]);
+                printf("(%c, %d) 可翻轉 %d 子\n", i+'a', j+1, next[color][i][j]);
     }
     return;
 }
@@ -115,12 +115,11 @@ int noChessToFlip(int color){
 }
 
 void flipChess(int x, int y, int color){
-
     int flipCheck = next[BLACK][x][y];
     int flip, antiColor;
     if(color == BLACK) antiColor = WHITE;
     if(color == WHITE) antiColor = BLACK;
-    
+
     for(int dy = -1; dy < 2; dy++){
         for(int dx = -1; dx < 2; dx++){
             if(dx != 0 || dy != 0){
@@ -135,6 +134,7 @@ void flipChess(int x, int y, int color){
                                 for(b; b > 0; b--){
                                     chess[x+(b * dx)][y+(b * dy)] = color;
                                 }
+                                chess[x][y] = color;
                                 break;
                             }
                         }
@@ -160,7 +160,7 @@ int main(){
       
     while(time == 0 || noChessToFlip(BLACK) * noChessToFlip(WHITE) > 1){
         outputArray();
-        if(noChessToFlip(BLACK) > 1 && time > 0){
+        if(noChessToFlip(BLACK) > 1 || time == 0){
             findChessToFlip();
             printf("黑子可下的位置：\n");
             checkNewStep(BLACK);
@@ -171,7 +171,7 @@ int main(){
             y = b - 1;
             flipChess(x, y, BLACK);
         }
-        if(noChessToFlip(WHITE) > 1 && time > 0){
+        if(noChessToFlip(WHITE) > 1 || time == 0){
             findChessToFlip();
             findMostValueChess(WHITE);
             flipChess(position[1], position[2], WHITE);
