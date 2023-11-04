@@ -80,6 +80,7 @@ void outputArray(void){
 void flipChess(int x, int y){
     int flipCheck = next[BLACK][x][y];
     int flip;
+    chess[x][y] = BLACK;
     for(int dy = -1; dy < 2; dy++){
         for(int dx = -1; dx < 2; dx++){
             if(dx != 0 || dy != 0){
