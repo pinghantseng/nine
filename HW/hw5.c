@@ -68,7 +68,7 @@ void checkNewStepByColor(int color){
     return;
 }
 
-void outputArray(void) {
+void outputArray(void){
     for (int i = 0; i < 8; i++){
         for (int j = 0; j < 8; j++)
             printf("%d ", chess[i][j]);
@@ -77,10 +77,9 @@ void outputArray(void) {
     return;
 }
 
-void flipChess(int x, int y) {
-
-int flipCheck = next[BLACK][x][y];
-int flip;
+void flipChess(int x, int y){
+    int flipCheck = next[BLACK][x][y];
+    int flip;
     for(int dy = -1; dy < 2; dy++){
         for(int dx = -1; dx < 2; dx++){
             if(dx != 0 || dy != 0){
