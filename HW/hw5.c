@@ -15,16 +15,16 @@ int chess[SIZE][SIZE] = {0};
 int next[2][SIZE][SIZE] = {0};
 
 void inputArray(void){
-    for (int i = 0; i < 8; i++){
-        for (int j = 0; j < 8; j++)
+    for (int i = 0; i < SIZE; i++){
+        for (int j = 0; j < SIZE; j++)
             scanf("%1d", &(chess[i][j]));
     }
     return;
 }
 
 void find(void){
-    for (int x = 0; x < 8; x++){
-        for (int y = 0; y < 8; y++){
+    for (int x = 0; x < SIZE; x++){
+        for (int y = 0; y < SIZE; y++){
 
             int flip = 0;
             int antiColor = 0;
@@ -37,7 +37,7 @@ void find(void){
                     for(int dx = -1; dx < 2; dx++){
                         if(dx != 0 || dy != 0){
                             flip = 0;
-                            for(int a = 1; a < 7; a++){
+                            for(int a = 1; a < (SIZE-1); a++){
                                 if(BOUND){
                                     if(chess[x+(a * dx)][y+(a * dy)] == antiColor){
                                         flip++;
@@ -60,8 +60,8 @@ void find(void){
 }
 
 void checkNewStepByColor(int color){
-    for (int i = 0; i < 8; i++){
-        for (int j = 0; j < 8; j++)
+    for (int i = 0; i < SIZE; i++){
+        for (int j = 0; j < SIZE; j++)
             if(next[color][i][j] > 0)
                 printf("(%d, %d) 可翻轉 %d 子\n", i, j, next[color][i][j]);
     }
@@ -69,8 +69,8 @@ void checkNewStepByColor(int color){
 }
 
 void outputArray(void){
-    for (int i = 0; i < 8; i++){
-        for (int j = 0; j < 8; j++)
+    for (int i = 0; i < SIZE; i++){
+        for (int j = 0; j < SIZE; j++)
             printf("%d ", chess[i][j]);
         printf("\n");
     }
@@ -84,7 +84,7 @@ void flipChess(int x, int y){
         for(int dx = -1; dx < 2; dx++){
             if(dx != 0 || dy != 0){
                 flip = 0;
-                for(int a = 1; a < 7; a++){
+                for(int a = 1; a < (SIZE-1); a++){
                     if(BOUND){
                         if(chess[x+(a * dx)][y+(a * dy)] == WHITE){
                             flip++;
