@@ -32,9 +32,11 @@ int position[2] = {0};     // 函數回傳值
 
 void clear(void){
     for(int a=1; a<3;a++)
-    for (int x = 0; x < SIZE; x++){
-        for (int y = 0; y < SIZE; y++){
-            next[a][x][y]=0;}}}
+        for (int x = 0; x < SIZE; x++)
+            for (int y = 0; y < SIZE; y++)
+            next[a][x][y]=0;
+    return;
+}
 
 void findChessToFlip(void){
     
@@ -93,7 +95,7 @@ void outputArray(void){
     }
     return;
 }
-// 剛好一樣
+
 void findMostValueChess(int color){
     int value = 0;
     for (int i = 0; i < SIZE; i++){
@@ -156,7 +158,7 @@ void flipChess(int x, int y, int color){
     // }
     return;
 }
-// 下到不能下的
+
 int main(){
     char b;
     int a, x, y, time=0;
@@ -166,7 +168,7 @@ int main(){
       
     while(time == 0 || noChessToFlip(BLACK) * noChessToFlip(WHITE) > 1){
         outputArray();
-        // 最後輸入
+
         clear();
         findChessToFlip();
         if(noChessToFlip(BLACK) > 1 || time == 0){
