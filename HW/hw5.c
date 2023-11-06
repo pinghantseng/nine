@@ -8,8 +8,8 @@
 // 橫軸是 y
 // 縱軸是 x
 
-//電腦 白棋
-//人類 黑棋
+// 電腦 白棋
+// 人類 黑棋
 
 int chess[SIZE][SIZE] = {0};
 int next[2][SIZE][SIZE] = {0};
