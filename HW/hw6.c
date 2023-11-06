@@ -1,22 +1,12 @@
 #include <stdio.h>
 #define SIZE 8
-#define BLANK 0
+#define BLANK 0  //空白
 #define BLACK 1
 #define WHITE 2
-#define BOUND (x+((a+1) * dx) > -1) && (x+((a+1) * dx) < SIZE) && (y+((a+1) * dy) > -1) && (y+((a+1) * dy) < SIZE)
+#define BOUND (x+((a+1) * dx) > -1) && (x+((a+1) * dx) < SIZE) && (y+((a+1) * dy) > -1) && (y+((a+1) * dy) < SIZE)  //判斷是否超出邊界
 
-// 橫軸是 y
-// 縱軸是 x
-
-// 橫軸 a b c d e f g h 
-// 縱軸 1 2 3 4 5 6 7 8
-
-// 電腦 白棋
-// 人類 黑棋
-
-// 當一方無處可下時，輪另一方下
-// 當二方都無處可下時，棋局就結束
-// 子多的那方獲勝。
+// 橫軸是 y, 縱軸是 x
+// 電腦白棋, 人類黑棋
 
 int chess[SIZE][SIZE] ={{0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0},
@@ -28,18 +18,19 @@ int chess[SIZE][SIZE] ={{0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0}};
 
 int next[2][SIZE][SIZE] = {0};
-int position[2] = {0};     // 函數回傳值
+int position[2] = {0};  //函數回傳值
 
+//將next陣列裡的值設為0
 void clear(void){
-    for(int a=1; a<3;a++)
+    for(int a = 1; a < 3; a++)
         for (int x = 0; x < SIZE; x++)
             for (int y = 0; y < SIZE; y++)
-            next[a][x][y]=0;
+                next[a][x][y] = 0;
     return;
 }
 
+//尋找黑棋與白棋所有可以下的位置及可翻轉棋子的數目儲存在next陣列中
 void findChessToFlip(void){
-    
     for (int x = 0; x < SIZE; x++){
         for (int y = 0; y < SIZE; y++){
 
@@ -76,6 +67,7 @@ void findChessToFlip(void){
     return;
 }
 
+//輸入顏色 輸出該顏色所有可以下的位置及可翻轉棋子的數目
 void checkNewStep(int color){
     for (int i = 0; i < SIZE; i++){
         for (int j = 0; j < SIZE; j++)
@@ -85,6 +77,7 @@ void checkNewStep(int color){
     return;
 }
 
+//輸出棋盤
 void outputArray(void){
     printf("  a b c d e f g h\n");
     for (int i = 0; i < SIZE; i++){
@@ -96,6 +89,7 @@ void outputArray(void){
     return;
 }
 
+//輸入顏色 找出該顏色可以翻最多棋子的位置 並輸出該位置
 void findMostValueChess(int color){
     int value = 0;
     for (int i = 0; i < SIZE; i++){
@@ -107,9 +101,14 @@ void findMostValueChess(int color){
             }
         }
     }
+    if(color == 1)
+        printf("黑棋下 (%d, %c)\n", position[1]+1, position[2]+'a');
+    if(color == 2)
+        printf("白棋下 (%d, %c)\n", position[1]+1, position[2]+'a');
     return;
 }
 
+//輸入顏色 判斷該顏色是否有棋子可下 有回傳1 無回傳0
 int noChessToFlip(int color){
     int u = 0;
     for (int i = 0; i < SIZE; i++){
@@ -119,10 +118,11 @@ int noChessToFlip(int color){
             }
         }
     }
-    if(u == 0) return 1;
-    if(u > 0) return 2;
+    if(u == 0) return 0;
+    if(u > 0) return 1;
 }
 
+//輸入下的棋子及顏色 翻棋子更改棋盤
 void flipChess(int x, int y, int color){
     int flipCheck = next[BLACK][x][y];
     int flip, antiColor;
@@ -159,41 +159,27 @@ void flipChess(int x, int y, int color){
     return;
 }
 
-int main(){
+//輸入顏色 輸入下棋的位置 無法下棋則重新輸入 並翻棋子
+void input(int color){
     char b;
-    int a, x, y, time=0;
-    int numOfWhite=0, numOfBlack=0;
-
-    printf("玩家黑子 黑子先下\n");
-      
-    while(time == 0 || noChessToFlip(BLACK) * noChessToFlip(WHITE) > 1){
-        outputArray();
-
-        clear();
-        findChessToFlip();
-        if(noChessToFlip(BLACK) > 1 || time == 0){
-            clear();
-            findChessToFlip();
-            printf("黑子可下的位置：\n");
-            checkNewStep(BLACK);
-
-            printf("輸入您要下的位置");
-            scanf("%d %c", &a, &b);
-            x = a - 1;
-            y = b - 'a';
-            flipChess(x, y, BLACK);
-        }
-        clear();
-        findChessToFlip();
-        if(noChessToFlip(WHITE) > 1 || time == 0){
-            clear();
-            findChessToFlip();
-            findMostValueChess(WHITE);
-            flipChess(position[1], position[2], WHITE);
-        }
-        time++;
+    int a, x, y;
+    while(1){
+        printf("輸入您要下的位置");
+        scanf("%d %c", &a, &b);
+        x = a - 1;
+        y = b - 'a';
+        if(next[color][x][y] > 0)
+            break;
+        else
+            continue;
     }
+    flipChess(x, y, color);
+    return;
+}
 
+//統計終局棋盤各顏色棋子的數目 並輸出比賽結果
+void resultOfTheGame(void){
+    int numOfWhite=0, numOfBlack=0;
     for (int i = 0; i < SIZE; i++){
         for (int j = 0; j < SIZE; j++)
             if(chess[i][j] == BLACK)
@@ -202,13 +188,46 @@ int main(){
                 numOfWhite++;
     }
 
-    printf("棋局結束\n");
     if(numOfBlack > numOfWhite)
         printf("黑方勝 %d:%d", numOfBlack, numOfWhite);
     else if(numOfBlack < numOfWhite)
         printf("白方勝 %d:%d", numOfWhite, numOfBlack);
-    else if(numOfBlack = numOfWhite)
+    else if(numOfBlack == numOfWhite)
         printf("和局 %d:%d", numOfBlack, numOfWhite);
-    
+    return;
+}
+
+int main(){
+    char b;
+    int a, x, y, time=0;
+
+    printf("棋局開始\n玩家黑棋 電腦白棋 黑棋先下\n");
+      
+    while(time == 0 || noChessToFlip(BLACK) + noChessToFlip(WHITE) > 0){
+        outputArray();
+
+        clear();
+        findChessToFlip();
+        if(noChessToFlip(BLACK) > 0 || time == 0){
+            clear();
+            findChessToFlip();
+            printf("黑子可下的位置：\n");
+            checkNewStep(BLACK);
+            input(BLACK);
+        }
+        clear();
+        findChessToFlip();
+        if(noChessToFlip(WHITE) > 0 || time == 0){
+            clear();
+            findChessToFlip();
+            findMostValueChess(WHITE);
+            flipChess(position[1], position[2], WHITE);
+        }
+        time++;
+    }
+
+    printf("棋局結束\n");
+    resultOfTheGame();
+
     return 0;
 }
