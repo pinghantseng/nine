@@ -72,7 +72,7 @@ void checkNewStep(int color){
     for (int i = 0; i < SIZE; i++){
         for (int j = 0; j < SIZE; j++)
             if(next[color][i][j] > 0)
-                printf("(%d, %c) 可翻轉 %d 子\n", i+1, j+'a', next[color][i][j]);
+                printf("(%c, %d) 可翻轉 %d 子\n", j+'a', i+1, next[color][i][j]);
     }
     return;
 }
@@ -102,9 +102,9 @@ void findMostValueChess(int color){
         }
     }
     if(color == 1)
-        printf("黑棋下 (%d, %c)\n", position[1]+1, position[2]+'a');
+        printf("黑棋下 (%c, %d)\n", position[2]+'a', position[1]+1);
     if(color == 2)
-        printf("白棋下 (%d, %c)\n", position[1]+1, position[2]+'a');
+        printf("白棋下 (%c, %d)\n", position[2]+'a', position[1]+1);
     return;
 }
 
@@ -161,13 +161,13 @@ void flipChess(int x, int y, int color){
 
 //輸入顏色 輸入下棋的位置 無法下棋則重新輸入 並翻棋子
 void input(int color){
-    char b;
-    int a, x, y;
+    char a;
+    int b, x, y;
     while(1){
         printf("輸入您要下的位置");
-        scanf("%d %c", &a, &b);
-        x = a - 1;
-        y = b - 'a';
+        scanf("%1c %1d", &a, &b);
+        x = b - 1;
+        y = a - 'a';
         if(next[color][x][y] > 0)
             break;
         else
